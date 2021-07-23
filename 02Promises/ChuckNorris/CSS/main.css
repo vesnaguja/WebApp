@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: rgb(155, 210, 202);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+  width: 70%;
+}
+
+.main-title {
+  color: rgb(55, 76, 80);
+}
+
+.cartoon-img {
+  width: 30%;
+  margin: 0 auto;
+}
