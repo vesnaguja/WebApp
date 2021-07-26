@@ -12,6 +12,7 @@ buttonElement.addEventListener('click', () => {
       jokeContainer.innerHTML = ''; 
       let joke = data.value;
       const jokePar = document.createElement('p');
+      jokePar.classList.add('joke-text');
       jokePar.textContent = joke;
       jokeContainer.append(jokePar);     
     })
