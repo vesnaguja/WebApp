@@ -18,13 +18,17 @@ fetch(requestUrl)
      
 
       galleryElement.innerHTML += `
-      <div class="card lik col-4 m-3 p-2" style="width: 18rem;" data-character="${id}">
+      <div class="help col-xl-3 col-lg-4 col-md-6 col-sm d-flex justify-content-center">
+      <div class="card lik col-xl-3 col-lg-4 col-md-6 col-sm p-2 border-0" style="width: 18rem;" data-character="${id}"> 
+      <div class="border border-primary rounded">  
       <img src="${image}" class="card-img-top img-fluid" alt="..." data-character="${id}">
       <div class="card-body">
-      <h5 class="card-title" data-character="${id}">${name}</h5>       
-      <a href="#" class="btn btn-primary"><img class="pe-1 " src="./images/hand-thumbs-up.svg">Like</a>
+      <h6 class="card-title" data-character="${id}">${name}</h6>       
+      <a href="#" class="btn btn-primary d-flex justify-content-center"><img class="pe-2 " src="./images/hand-thumbs-up.svg">Like</a>
       </div>
-      </div>      
+      </div> 
+      </div>
+      </div>     
     `;
 
     })
