@@ -10,9 +10,7 @@ const profileOrigin = document.querySelector('.profile-origin');
 const profileLocation = document.querySelector('.profile-location');
 
 fetch(characterSchemaUrl)
-  .then(response => {
-    return response.json();
-  })
+  .then(response => response.json())
   .then(data => {
     console.log(data);
     const characterImg = data.image;

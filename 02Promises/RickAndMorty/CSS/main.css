@@ -1,21 +1,13 @@
-/* .body-cont {
-  background-image: url('../images/bg-3.jpg');
+.body-cont {
+  background-image: url("../images/bg-img.png");
   background-size: contain;
-  background-repeat: no-repeat;  
-} */
-
-/* .help {
-  background-color: red;
-}  */
-
-/* .lik {
-  background-color: blue;
-} */
+  background-repeat: repeat-y;
+}
 
 #character-img {
   border-radius: 50%;
 }
 
-#character-name{
-  
+.cont-info {
+  height: 100%;
 }
