@@ -1,18 +1,12 @@
 // get page from URL
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const pageNumber = urlParams.get('page') || 1;
+let pageNumber = +urlParams.get('page') || 1;
 
-
+// provera da li je pageNumber unutar raspona postojecih stranica ( od 1 do 34 )
+if(pageNumber < 1 || pageNumber > 34) pageNumber = 1;
 
 const charactersUrl = 'https://rickandmortyapi.com/api/character?page=' + pageNumber;
-
-console.log(charactersUrl)
-
-function getPageNumberFromUrl(url) {
-   if(url) return url.split('=')[1];
-   else return null;
-}
 
 
 const galleryElement = document.querySelector('.gallery');
@@ -23,11 +17,10 @@ fetch(charactersUrl)
   .then(data => {
 
     // paginacija
-    const paginationHtml = paginationHtmlTemplate
-      .replace('#PREV_LINK#', './index.html?page=' + getPageNumberFromUrl(data.info.prev))
-      .replace('#NEXT_LINK#', './index.html?page=' + getPageNumberFromUrl(data.info.next));
+    const previousLink = './index.html?page=' + getPageNumberFromUrl(data.info.prev);
+    const nextLink = './index.html?page=' + getPageNumberFromUrl(data.info.next);
 
-    paginationElement.innerHTML = paginationHtml;
+    paginationElement.innerHTML = paginationTemplate(pageNumber, Math.ceil(data.info.count/20), previousLink, nextLink);
 
     // galerija
     data.results.forEach(el => {
@@ -35,20 +28,9 @@ fetch(charactersUrl)
       const name = el.name;
       const id = el.id;
 
-      galleryElement.innerHTML += `
-      <div class="col-xl-3 col-lg-4 col-md-6 col-sm d-flex justify-content-center">
-      <div class="card img-and-name col-xl-3 col-lg-4 col-md-6 col-sm p-2 border-0 bg-transparent" style="width: 16rem;" data-character="${id}"> 
-      <div class="rounded bg-light">  
-      <img src="${image}" class="card-img-top img-fluid" alt="..." data-character="${id}">
-      <div class="card-body">
-      <h6 class="card-title" data-character="${id}">${name}</h6>       
-      <a href="#" class="btn btn-outline-primary d-flex justify-content-center"><img class="pe-2 " src="./images/hand-thumbs-up.svg">Like</a>
-      </div>
-      </div> 
-      </div>
-      </div>     
-    `;
+      galleryElement.innerHTML += galleryTemplate(id, name, image);
 
+      // card click logic
       let cardElements = document.querySelectorAll('.img-and-name');
       cardElements.forEach(card => {
         card.addEventListener('click', e => {
@@ -64,20 +46,54 @@ fetch(charactersUrl)
   });
 
 
+function getPageNumberFromUrl(url) {
+  if (url) return url.split('=')[1];
+  else return null;
+}
 
 
+function paginationNumbers(number, lastPage) {
+  if (number < 3 || number > lastPage)
+    return [1, 2, 3, 4, 5];
+  if (number >= 3 && number <= lastPage - 2)
+    return [number - 2, number - 1, number, number + 1, number + 2]
+  if (number === lastPage || number === lastPage - 1)
+    return [lastPage - 4, lastPage - 3, lastPage - 2, lastPage - 1, lastPage]
+}
 
-const paginationHtmlTemplate = `<ul id="first" class="pagination justify-content-center mt-3">
-    <li class="page-item ${(pageNumber==1)?'disabled':''}">
-      <a class="page-link bg-dark text-white" href="#PREV_LINK#">
-        << </a>
-    </li>
-    <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-    <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-    <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
-    <li class="page-item"><a class="page-link text-dark" href="#">4</a></li>
-    <li class="page-item"><a class="page-link text-dark" href="#">5</a></li>
-    <li class="page-item">
-      <a class="page-link bg-dark text-white" href="#NEXT_LINK#"> >> </a>
-    </li>
-    </ul>`;
+function paginationTemplate(pageNumber, maxPageNumber, previous, next) {
+  return `<ul id="first" class="pagination justify-content-center mt-3">
+  <li class="page-item ${(pageNumber==1)?'disabled':''}">
+    <a class="page-link bg-dark text-white" href="${previous}">
+      << </a>
+  </li>
+
+  <!-- pagination number buttons -->
+  ${paginationNumbers(pageNumber, maxPageNumber).map(number => `
+    <li class="page-item ${(pageNumber===number)?'active':''}">
+      <a class="page-link text-dark" href="./index.html?page=${number}">${number}</a>
+    </li>`)}
+
+  <li class="page-item ${(pageNumber==maxPageNumber)?'disabled':''}">
+    <a class="page-link bg-dark text-white" href="${next}"> >> </a>
+  </li>
+  </ul>`;
+}
+
+
+function galleryTemplate(id, name, image) {
+  return `<div class="col-xl-3 col-lg-4 col-md-6 col-sm p-2 d-flex justify-content-center">
+    <div class="card img-and-name bg-light h-100" style="width: 15rem;" data-character="${id}"> 
+        <img src="${image}" class="card-img-top img-fluid" alt="..." data-character="${id}">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h5 class="card-title" data-character="${id}">${name}</h5>       
+            <a href="#" class="btn btn-outline-primary d-flex justify-content-center">
+              <div>
+                <img class="pe-2" src="./images/hand-thumbs-up.svg">
+                Like
+              </div>
+            </a>
+        </div>
+    </div>
+  </div>`;
+}
