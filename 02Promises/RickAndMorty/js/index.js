@@ -8,7 +8,6 @@ if (pageNumber < 1 || pageNumber > 34) pageNumber = 1;
 
 const charactersUrl = 'https://rickandmortyapi.com/api/character?page=' + pageNumber;
 
-
 const galleryElement = document.querySelector('.gallery');
 const paginationElement = document.querySelector('.pages');
 
@@ -67,13 +66,13 @@ fetch(charactersUrl)
   });
 
 
-function getPageNumberFromUrl(url) {
+const getPageNumberFromUrl = url => {
   if (url) return url.split('=')[1];
   else return null;
 }
 
 
-function paginationNumbers(number, lastPage) {
+const paginationNumbers = (number, lastPage) => {
   if (number < 3 || number > lastPage)
     return [1, 2, 3, 4, 5];
   if (number >= 3 && number <= lastPage - 2)
@@ -82,7 +81,7 @@ function paginationNumbers(number, lastPage) {
     return [lastPage - 4, lastPage - 3, lastPage - 2, lastPage - 1, lastPage]
 }
 
-function paginationTemplate(pageNumber, maxPageNumber, previous, next) {
+const paginationTemplate = (pageNumber, maxPageNumber, previous, next) => {
   return `<ul id="first" class="pagination justify-content-center mt-3">
   <li class="page-item ${(pageNumber==1)?'disabled':''}">
     <a class="page-link bg-dark text-white" href="${previous}">
@@ -102,9 +101,9 @@ function paginationTemplate(pageNumber, maxPageNumber, previous, next) {
 }
 
 
-function galleryTemplate(id, name, image) {
+const galleryTemplate = (id, name, image) => {
   return `<div class="col-xl-3 col-lg-4 col-md-6 col-sm p-2 d-flex justify-content-center">
-    <div class="card bg-light h-100" style="width: 15rem;"> 
+    <div class="card bg-light h-100" style="width: 16rem;"> 
         <img src="${image}" class="card-img-top img-fluid img-and-name" alt="..." data-character="${id}">
         <div class="card-body d-flex flex-column justify-content-between">
           <h5 class="card-title img-and-name" data-character="${id}">${name}</h5>       

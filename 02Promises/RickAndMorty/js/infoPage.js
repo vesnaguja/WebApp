@@ -1,32 +1,40 @@
 const character = window.localStorage.getItem('characterId');
 const characterSchemaUrl = 'https://rickandmortyapi.com/api/character/' + character;
 
-const profileImage = document.querySelector('.profile-img');
-const profileName = document.querySelector('.profile-name');
-const profileStatus = document.querySelector('.profile-status');
-const profileSpecies = document.querySelector('.profile-species');
-const profileGender = document.querySelector('.profile-gender');
-const profileOrigin = document.querySelector('.profile-origin');
-const profileLocation = document.querySelector('.profile-location');
+const infoCont = document.querySelector('.info-cont');
 
 fetch(characterSchemaUrl)
   .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    const characterImg = data.image;
-    const characterName = data.name;
-    const characterStatus = data.status;
-    const characterSpecies = data.species;
-    const characterGender = data.gender;
-    const characterOrigin = data.origin.name;
-    const characterLocation = data.location.name;
+  .then(data => {   
+    infoCont.innerHTML +=`
+<div><img src="${data.image}" class="img-fluid mx-auto d-block" id="character-img"></div>
+<div class="p-3 text-primary"><h1 id="character-name">${data.name}<h1></div> 
+  <div class="container p-3 d-flex row justify-content-center">
+    <div class="col-md-6 col-lg-4 col-xl-2">
+      <h3>Status</h3>
+      <p>${data.status}</p>
+    </div>
 
+    <div class="col-md-6 col-lg-4 col-xl-2">
+      <h3>Species</h3>
+      <p>${data.species}</p>
+    </div>
 
-    profileImage.innerHTML += `<img src="${characterImg}" class="img-fluid mx-auto d-block" id="character-img">`;
-    profileName.innerHTML += `<h1 id="character-name">${characterName}<h1>`;
-    profileStatus.innerHTML += `<p>${characterStatus}</p>`;
-    profileSpecies.innerHTML += `<p>${characterSpecies}</p>`;
-    profileGender.innerHTML += `<p>${characterGender}</p>`;
-    profileOrigin.innerHTML += `<p>${characterOrigin}</p>`;
-    profileLocation.innerHTML += `<p>${characterLocation}</p>`;
+    <div class="col-md-6 col-lg-4 col-xl-2">
+      <h3>Gender</h3>
+      <p>${data.gender}</p>
+    </div>
+
+    <div class="col-md-6 col-lg-4 col-xl-2">
+      <h3>Origin</h3>
+      <p>${data.origin.name}</p>
+    </div>
+
+    <div class="col-md-6 col-lg-4 col-xl-2">
+      <h3>Location</h3>
+      <p>${data.location.name}</p>
+    </div>
+  </div>`    
   })
+
+  
