@@ -4,7 +4,7 @@ const urlParams = new URLSearchParams(queryString);
 let pageNumber = +urlParams.get('page') || 1;
 
 // provera da li je pageNumber unutar raspona postojecih stranica ( od 1 do 34 )
-if(pageNumber < 1 || pageNumber > 34) pageNumber = 1;
+if (pageNumber < 1 || pageNumber > 34) pageNumber = 1;
 
 const charactersUrl = 'https://rickandmortyapi.com/api/character?page=' + pageNumber;
 
@@ -20,7 +20,7 @@ fetch(charactersUrl)
     const previousLink = './index.html?page=' + getPageNumberFromUrl(data.info.prev);
     const nextLink = './index.html?page=' + getPageNumberFromUrl(data.info.next);
 
-    paginationElement.innerHTML = paginationTemplate(pageNumber, Math.ceil(data.info.count/20), previousLink, nextLink);
+    paginationElement.innerHTML = paginationTemplate(pageNumber, Math.ceil(data.info.count / 20), previousLink, nextLink);
 
     // galerija
     data.results.forEach(el => {
@@ -29,6 +29,29 @@ fetch(charactersUrl)
       const id = el.id;
 
       galleryElement.innerHTML += galleryTemplate(id, name, image);
+
+      const likeButtons = document.querySelectorAll('#like-button');
+
+      likeButtons.forEach(likeButton => {
+
+        likeButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          if (likeButton.classList.contains('btn-outline-primary')) {
+            likeButton.classList.remove('btn-outline-primary');
+            likeButton.classList.remove('text-primary');
+
+            likeButton.classList.add('btn-primary');
+            likeButton.classList.add('text-white');
+          } else {
+            likeButton.classList.remove('btn-primary');
+            likeButton.classList.remove('text-white');
+
+            likeButton.classList.add('btn-outline-primary');
+            likeButton.classList.add('text-primary');
+          }
+        });
+      });
 
       // card click logic
       let cardElements = document.querySelectorAll('.img-and-name');
@@ -40,8 +63,6 @@ fetch(charactersUrl)
           window.open('./infoPage.html', "_self");
         })
       });
-
-
     });
   });
 
@@ -83,11 +104,11 @@ function paginationTemplate(pageNumber, maxPageNumber, previous, next) {
 
 function galleryTemplate(id, name, image) {
   return `<div class="col-xl-3 col-lg-4 col-md-6 col-sm p-2 d-flex justify-content-center">
-    <div class="card img-and-name bg-light h-100" style="width: 15rem;" data-character="${id}"> 
-        <img src="${image}" class="card-img-top img-fluid" alt="..." data-character="${id}">
+    <div class="card bg-light h-100" style="width: 15rem;"> 
+        <img src="${image}" class="card-img-top img-fluid img-and-name" alt="..." data-character="${id}">
         <div class="card-body d-flex flex-column justify-content-between">
-          <h5 class="card-title" data-character="${id}">${name}</h5>       
-            <a href="#" class="btn btn-outline-primary d-flex justify-content-center">
+          <h5 class="card-title img-and-name" data-character="${id}">${name}</h5>       
+            <a href="./index.html" id="like-button" class="btn btn-outline-primary d-flex justify-content-center">
               <div>
                 <img class="pe-2" src="./images/hand-thumbs-up.svg">
                 Like
@@ -97,3 +118,4 @@ function galleryTemplate(id, name, image) {
     </div>
   </div>`;
 }
+
