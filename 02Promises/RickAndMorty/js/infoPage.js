@@ -7,8 +7,9 @@ fetch(characterSchemaUrl)
   .then(response => response.json())
   .then(data => {   
     infoCont.innerHTML +=`
-<div><img src="${data.image}" class="img-fluid mx-auto d-block" id="character-img"></div>
-<div class="p-3 text-primary"><h1 id="character-name">${data.name}<h1></div> 
+  <div><img src="${data.image}" class="img-fluid mx-auto d-block" id="character-img"></div>
+  <div class="p-3 text-primary"><h1 id="character-name">${data.name}<h1></div> 
+
   <div class="container p-3 d-flex row justify-content-center">
     <div class="col-md-6 col-lg-4 col-xl-2">
       <h3>Status</h3>

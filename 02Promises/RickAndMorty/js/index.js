@@ -82,22 +82,22 @@ const paginationNumbers = (number, lastPage) => {
 }
 
 const paginationTemplate = (pageNumber, maxPageNumber, previous, next) => {
-  return `<ul id="first" class="pagination justify-content-center mt-3">
-  <li class="page-item ${(pageNumber==1)?'disabled':''}">
-    <a class="page-link bg-dark text-white" href="${previous}">
-      << </a>
+  return `
+<ul id="first" class="pagination justify-content-center mt-3">
+  <li class="page-item ${(pageNumber===1)?'disabled':''}">
+    <a class="page-link bg-dark text-white" href="${previous}">&laquo;</a>
   </li>
 
   <!-- pagination number buttons -->
   ${paginationNumbers(pageNumber, maxPageNumber).map(number => `
     <li class="page-item ${(pageNumber===number)?'active':''}">
       <a class="page-link text-dark" href="./index.html?page=${number}">${number}</a>
-    </li>`)}
+    </li>`).join('')}
 
-  <li class="page-item ${(pageNumber==maxPageNumber)?'disabled':''}">
-    <a class="page-link bg-dark text-white" href="${next}"> >> </a>
+  <li class="page-item ${(pageNumber===maxPageNumber)?'disabled':''}">
+    <a class="page-link bg-dark text-white" href="${next}">&raquo;</a>
   </li>
-  </ul>`;
+</ul>`;
 }
 
 
