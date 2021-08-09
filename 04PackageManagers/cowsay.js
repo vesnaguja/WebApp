@@ -1,12 +1,19 @@
 // Cowsay
 
-var cowsay = require("cowsay");
+const cowsay = require("cowsay");
 
+const printCowWords = text => {
+	console.log(cowsay.say({
+		text : text,
+		e : "oO",
+		T : "U "		
+	}));
+	
+}
 
-console.log(cowsay.say({
-	text : "I'm a moooodule",
-	e : "oO",
-	T : "U "
-}));
+const text = "Hello World";
+printCowWords(text);
+
 
 // or cowsay.think()
+
