@@ -1,31 +1,31 @@
-import React, { Component } from "react";
-
-import { blogs } from "../../data/blog-posts.js";
+import React from "react";
+import { getBlogs } from "../../services/blogService";
+//import { blogs } from "../../data/blog-posts.js";
 import Blog from "../Blog/Blog";
 
 import "./BlogList.css";
 
-export class BlogList extends Component {
+export class BlogList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: 0,
+      blogList: [],
     };
-    this.onCountClick = this.onCountClick.bind(this);
   }
 
-  onCountClick() {
-    this.setState({ count: this.state.count + 1 });
+  componentDidMount() {
+    getBlogs()
+    .then((data) => {
+      this.setState({ blogList: data });
+    });
   }
 
   render() {
-    const {count} = this.state;
+    if (this.state.blogList.length === 0) return <div>Loading</div>;
+
     return (
       <div className="blogList">
-        <span>{count}</span> 
-        <button onClick={this.onCountClick}>Click me</button>
-
-        {blogs.map((post, index) => (
+        {this.state.blogList.map((post, index) => (
           <Blog post={post} key={index} />
         ))}
       </div>
