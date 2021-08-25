@@ -5,11 +5,11 @@ import CardGif from "./CardGif";
 
 const DisplayGifs = ({ gifs }) => {
   return (
-    <Container>
-      <Row>
+    <Container >
+      <Row >
         {gifs.map((gif) => {
           return (
-            <Col>
+            <Col sm={12} md={6} lg={4} >
               <CardGif gif={gif} key={gif.id} />
             </Col>
           );

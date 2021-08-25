@@ -2,9 +2,9 @@ import { Card } from "react-bootstrap";
 
 const CardGif = ({ gif }) => {
   return (
-    <Card style={{ width: "20rem" }}>
+    <Card className="card p-3 bg-secondary my-3">
       <Card.Img variant="top" src={gif.images.original.url} />
-    </Card>
+    </Card>    
   );
 };
 
