@@ -1,14 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-import './Blog.css'
+import "./Blog.css";
 
-const Blog = (props) => {
-  return (    
-    <div className="blogItem">
-      <h2>{props.post.title}</h2>
-      <p>{props.post.body}</p>
-    </div>    
-  )
+const Blog = ({post}) => {
+  return (
+    <Link to={`/blog/${post.id}`}>
+      <div className="blogItem">
+        {/* <div>This is a single blog with id: {props.id}</div> */}
+        <h2>{post.title}</h2>
+        <p>{post.body}</p>
+      </div>
+    </Link>
+  );
 };
 
-export default Blog
+export default Blog;
